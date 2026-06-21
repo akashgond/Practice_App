@@ -1,0 +1,26 @@
+﻿@model List<Movie>
+
+@{
+    ViewData["title"] = "Movielist";
+}
+<div>
+    <h1>Movie List</h1>
+</div>
+<div>
+    @Html.ActionLink("Create", "Create")
+    <table class="table">
+        <tr>
+            <th>@Html.DisplayNameFor(Model => Model[0].MovieName)</th>
+            <th>@Html.DisplayNameFor(Model => Model[0].Genre)</th>
+            <th>@Html.DisplayNameFor(Model => Model[0].Price)</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelitem => item.MovieName)</td>
+                <td>@Html.DisplayFor(modelitem => item.Genre)</td>
+                <td>@Html.DisplayFor(modelitem => item.Price)</td>
+            </tr>
+        }
+    </table>
+</div>

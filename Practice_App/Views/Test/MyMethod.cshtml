@@ -1,0 +1,13 @@
+@{
+    ViewData["Title"] = "MyMethod";
+}
+
+<h2>MyMethod</h2>
+<ol>
+@{
+    for(int i = 1; i < (int)ViewData["nums"]; i++)
+    {
+<li>@i</li>
+    }
+}
+</ol>
