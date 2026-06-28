@@ -19,7 +19,7 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '8.0'   # Adjust to your .NET Core version
+    version: '8.0.x'   # Adjust to your .NET Core version
 
 - script: dotnet restore
   displayName: 'Restore NuGet packages'
