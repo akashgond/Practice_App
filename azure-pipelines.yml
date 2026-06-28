@@ -1,0 +1,42 @@
+# ASP.NET Core (.NET Framework)
+# Build and test ASP.NET Core projects targeting the full .NET Framework.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+  branches:
+    include:
+      - master   # Run pipeline when code is pushed to main
+
+pool:
+  name: MyAgent   # Use your self-hosted agent pool name
+
+variables:
+  buildConfiguration: 'Release'
+  publishDir: '$(Build.ArtifactStagingDirectory)/publish'
+
+steps:
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '8.0.x'   # Adjust to your .NET Core version
+
+- script: dotnet restore
+  displayName: 'Restore NuGet packages'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'Build project'
+
+- script: dotnet publish --configuration $(buildConfiguration) --output $(publishDir)
+  displayName: 'Publish project'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(publishDir)'
+    TargetFolder: 'E:\Publish\MVC_Pract'   # Path to your IIS site folder
+    OverWrite: true
+
+- powershell: |
+    Import-Module WebAdministration
+    Restart-WebAppPool -Name "MyMVCApp"
+  displayName: 'Restart IIS App Pool'
